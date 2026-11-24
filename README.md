@@ -73,18 +73,37 @@ src/            Windows 制作端（tkinter GUI + 下载/依赖解析/流程编�
   iso_reader.py   ISO 包清单读取
   builder.py      本地 apt 索引与交付目录组装
   assets/         内置目标机 deb 与说明文档
-  cache/          离线软件目录缓存（大体积索引不入库）
+  cache/          软件目录缓存 catalog-spark.json（随仓库提供，打开即见 600+ 应用）
 target_tool/    deepin 目标机 GTK 工具、helper.sh、deb 构建脚本
+tools/          GitHub API 备用同步脚本
 build*.bat      Windows 打包脚本
+git-push.bat    一键提交并同步两端
+LICENSE         MIT 开源许可证
 ```
 
-## 构建与推送
+## 构建
 
-```bat
-build.bat              :: 目录版
-build-portable.bat     :: 单文件便携版
-git-push.bat           :: 一键推送到 Gitee 与 GitHub（先改脚本顶部的仓库地址）
-```
+| 脚本 | 产物 |
+|---|---|
+| `build.bat` | 目录版（启动快，需连同 `_internal/` 拷贝） |
+| `build-portable.bat` | 单文件便携版（一个 exe，拷到任意 Windows 机器） |
+
+打包脚本顶部的 `PY` / `SRC` / `DIST` 按本机环境写死，换机器时请改成实际路径。目标机 `.deb` 可随时用 `python target_tool\build_deb.py` 重新生成。
+
+## 仓库地址与同步
+
+| 平台 | 地址 |
+|---|---|
+| GitHub | https://github.com/debrnr/DeepinOfflineMaker |
+| Gitee | https://gitee.com/debrnr/deepin-offline-maker |
+
+改完代码后双击 `git-push.bat` 即可一键提交并同步两端：
+
+- **Gitee**：国内直连，`git push gitee main`，通常几秒完成。
+- **GitHub**：优先 `git push github main`。若本机代理把 `github.com` 的 git 通道掐断（表现为 `CONNECT tunnel failed 502` / `schannel: missing close_notify`），脚本会自动改走 `tools\push_github_api.py`，用 `api.github.com` 的 REST API 把全部跟踪文件（含二进制 `.deb`）做成一次提交推上去。
+- 也可单独执行 `python tools\push_github_api.py`，或附加 `<owner> <repo>` 指定其它仓库。
+
+凭据由 Git Credential Manager 提供，不写进仓库；GitHub 需用 Personal Access Token 代替密码。GitHub 连接器（GitHub App）默认只授权账号下原有仓库，若要让它也能写这个新仓库，需在 GitHub 的 Settings → Applications → Installed GitHub Apps 中把该仓库加入授权范围。
 
 ## 适用范围与注意
 
@@ -96,4 +115,4 @@ git-push.bat           :: 一键推送到 Gitee 与 GitHub（先改脚本顶部�
 
 ## 许可证
 
-暂未指定，如需开源分发请补充 LICENSE。
+[MIT](LICENSE) — 可自由使用、修改、分发（含商用），只需保留版权与许可声明。
