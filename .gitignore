@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# PyInstaller 构建产物（含本机绝对路径，且可一键重建）
+build/
+build_*/
+dist/
+dist_*/
+*.spec
+_build*.log
+
+# 本机运行时数据 / 项目基线快照（含本机路径，不入库）
+DOM-data/
+TEMP/
+*.log
+
+# 可再生的仓库索引缓存（共 100MB+，工具运行时自动从镜像下载）
+src/cache/Packages-*.gz
+src/cache/Packages-*.txt
+src/cache/last-project.json
+
+# 保留入库：
+#   src/cache/catalog-spark.json   离线软件目录（429K，clone 后无外网也能看列表）
+#   src/assets/*.deb / docs       交付包必需的目标机图形工具与说明
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
