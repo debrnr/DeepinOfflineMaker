@@ -1,0 +1,9 @@
+# 目标机（deepin/Linux）侧文件必须保持 LF，否则 shebang 带 \r 会导致无法执行
+* text=auto
+
+*.sh   text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.bat  text eol=crlf
+*.deb  binary
